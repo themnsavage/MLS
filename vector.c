@@ -123,9 +123,41 @@ void security_filter(Vector all_data[], int number_vectors, int security_level)
     }   
 }
 
+int find_value_with_field_name(Vector vector, char element)
+{
+    for(int i = 0; i < vector.used; i++)
+    {
+        if(vector.data[i]->field_name == element) return vector.data[i]->value;
+    }
+    return -99; // not found 
+}
+
 void find(Vector all_data[], int number_of_vectors, char field_name, char operator, int value)
 {
-    
+    for(int i = 0; i < number_of_vectors; i++)
+    {
+       int found_value = find_value_with_field_name(all_data[i], field_name); // note also finds out if field_name exists in the vector by returning -99 if not
+
+       if(found_value == -99)
+       {
+           set_indicator_off(&all_data[i]);
+       }
+       else
+       {
+           if(operator == '=' && found_value != value)
+           {
+               set_indicator_off(&all_data[i]);
+           }
+           else if(operator == '>' && found_value <= value)
+           {
+               set_indicator_off(&all_data[i]);
+           }
+           else if(operator == '<' && found_value >= value)
+           {
+               set_indicator_off(&all_data[i]);
+           }
+       }
+    }
 }
 
 void project(Vector all_data[], int number_vectors, char project_elements[], int number_of_project_elements)

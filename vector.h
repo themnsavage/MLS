@@ -32,6 +32,7 @@ void set_indicator_off(Vector *vector);
 void set_indicator_on(Vector *vector);
 void reset_indicator(Vector *all_data, int number_vectors);
 void security_filter(Vector all_data[], int number_vectors, int security_level);
+int find_value_with_field_name(Vector vector, char element);
 void find(Vector all_data[], int number_of_vectors, char field_name, char operator, int value);
 void project(Vector all_data[], int number_vectors, char project_elements[], int number_of_project_elements);
 #endif
