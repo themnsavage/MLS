@@ -268,8 +268,9 @@ void sort(Vector all_data[], int number_vectors, int security_level,char field_n
        for(int i = 0; i < curr_vector->used; i++) printf("%c: %d ", curr_vector->data[i]->field_name, curr_vector->data[i]->value); 
        printf("\n");
 
-       set_indicator_off(curr_vector);
-
+       set_indicator_off(curr_vector); // set indicator off for curr_vector to prevent searching for it again
+       
+       // finds curr_vector based on acsending(1) or descending order(-1)
        if(sorting_type == 1) curr_vector = find_smallest_vector(all_data, number_vectors,field_name_sorting_by);
        else curr_vector = find_largest_vector(all_data, number_vectors,field_name_sorting_by);
    }
