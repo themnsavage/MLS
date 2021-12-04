@@ -193,3 +193,85 @@ void project(Vector all_data[], int number_vectors, char project_elements[], int
         }
     }
 }
+
+Vector *find_smallest_vector(Vector all_data[], int number_vectors,char search_for_field_name)
+{
+    Vector *min = NULL;
+    for(int i = 0; i < number_vectors; i++)
+    {
+       if(all_data[i].indicator != 0)
+       {
+           for(int j = 0; j < all_data[i].used; j++)
+           {
+               char curr_field_name = all_data[i].data[j]->field_name;
+               int curr_value = all_data[i].data[j]->value;
+               if(min == NULL)
+               {
+                   min = &all_data[i];
+               }
+               else if(curr_field_name == search_for_field_name && curr_value < min->data[j]->value)
+               {
+                   min = &all_data[i];
+               }
+           }
+       }
+    }
+
+    return min;
+}
+
+Vector *find_largest_vector(Vector all_data[], int number_vectors,char search_for_field_name) 
+{
+    Vector *max = NULL;
+    for(int i = 0; i < number_vectors; i++)
+    {
+       if(all_data[i].indicator != 0)
+       {
+           for(int j = 0; j < all_data[i].used; j++)
+           {
+               char curr_field_name = all_data[i].data[j]->field_name;
+               int curr_value = all_data[i].data[j]->value;
+               if(max == NULL)
+               {
+                   max = &all_data[i];
+               }
+               else if(curr_field_name == search_for_field_name && curr_value > max->data[j]->value)
+               {
+                   max = &all_data[i];
+               }
+           }
+       }
+    }
+    return max;
+}
+
+
+void sort(Vector all_data[], int number_vectors, int security_level,char field_name_sorting_by,int sorting_type)
+{
+   security_filter(all_data, number_vectors, security_level); // filter out documents that do not meet security_level
+   find(all_data, number_vectors, field_name_sorting_by, ' ', -1); // filter out documents that does not have field_name that we sorting by
+   
+   if(sorting_type != 1 && sorting_type != -1) 
+   {
+       printf("sorting type is not 1 or -1 (in sort function)\n");
+       exit(1);
+   }
+
+   // get first smallest/biggest vector 
+   Vector *curr_vector = NULL;
+   if(sorting_type == 1) curr_vector = find_smallest_vector(all_data, number_vectors,field_name_sorting_by);
+   else curr_vector = find_largest_vector(all_data, number_vectors,field_name_sorting_by);
+
+   // keep getting all smallest/biggest vector one by one until none are left or dont reach requirements 
+   while (curr_vector != NULL)
+   {
+       for(int i = 0; i < curr_vector->used; i++) printf("%c: %d ", curr_vector->data[i]->field_name, curr_vector->data[i]->value); 
+       printf("\n");
+
+       set_indicator_off(curr_vector);
+
+       if(sorting_type == 1) curr_vector = find_smallest_vector(all_data, number_vectors,field_name_sorting_by);
+       else curr_vector = find_largest_vector(all_data, number_vectors,field_name_sorting_by);
+   }
+   
+}

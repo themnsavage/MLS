@@ -48,6 +48,7 @@ Vector *read_data(char *filename, int number_of_lines)
         int counter = 0;
         char field_name;
         int value;
+        push_back(&all_data[line_counter], 'A', line_counter); // making unique key A
         while (sscanf(l, "%s%n", &c, &offset) == 1)
         {
             if(counter % 2 == 0)
