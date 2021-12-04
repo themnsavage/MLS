@@ -197,21 +197,24 @@ void project(Vector all_data[], int number_vectors, char project_elements[], int
 Vector *find_smallest_vector(Vector all_data[], int number_vectors,char search_for_field_name)
 {
     Vector *min = NULL;
+    int min_index;
     for(int i = 0; i < number_vectors; i++)
     {
-       if(all_data[i].indicator != 0)
+       if(all_data[i].indicator != 0) // does not reach requirements or already was return from prev search
        {
            for(int j = 0; j < all_data[i].used; j++)
            {
                char curr_field_name = all_data[i].data[j]->field_name;
                int curr_value = all_data[i].data[j]->value;
-               if(min == NULL)
+               if(min == NULL && curr_field_name == search_for_field_name)
                {
                    min = &all_data[i];
+                   min_index = j;
                }
-               else if(curr_field_name == search_for_field_name && curr_value < min->data[j]->value)
+               else if(curr_field_name == search_for_field_name && curr_value < min->data[min_index]->value)
                {
                    min = &all_data[i];
+                   min_index = j;
                }
            }
        }
@@ -223,21 +226,24 @@ Vector *find_smallest_vector(Vector all_data[], int number_vectors,char search_f
 Vector *find_largest_vector(Vector all_data[], int number_vectors,char search_for_field_name) 
 {
     Vector *max = NULL;
+    int max_index;
     for(int i = 0; i < number_vectors; i++)
     {
-       if(all_data[i].indicator != 0)
+       if(all_data[i].indicator != 0) // does not reach requirements or already was return from prev search
        {
            for(int j = 0; j < all_data[i].used; j++)
            {
                char curr_field_name = all_data[i].data[j]->field_name;
                int curr_value = all_data[i].data[j]->value;
-               if(max == NULL)
+               if(max == NULL && curr_field_name == search_for_field_name)
                {
                    max = &all_data[i];
+                   max_index = j;
                }
-               else if(curr_field_name == search_for_field_name && curr_value > max->data[j]->value)
+               else if(curr_field_name == search_for_field_name && curr_value > max->data[max_index]->value)
                {
                    max = &all_data[i];
+                   max_index = j;
                }
            }
        }
@@ -250,7 +256,6 @@ void sort(Vector all_data[], int number_vectors, int security_level,char field_n
 {
    security_filter(all_data, number_vectors, security_level); // filter out documents that do not meet security_level
    find(all_data, number_vectors, field_name_sorting_by, ' ', -1); // filter out documents that does not have field_name that we sorting by
-   
    if(sorting_type != 1 && sorting_type != -1) 
    {
        printf("sorting type is not 1 or -1 (in sort function)\n");

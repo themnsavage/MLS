@@ -8,7 +8,7 @@ int main()
 {
     int number_of_lines = get_number_of_lines("data.txt");
     Vector *all_data = read_data("data.txt", number_of_lines);
-    sort(all_data, number_of_lines, 20,'A',-1);
+    sort(all_data, number_of_lines, 2,'E',1);
 
 
     free_all_data(all_data, number_of_lines);
