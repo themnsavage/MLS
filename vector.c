@@ -134,6 +134,8 @@ int find_value_with_field_name(Vector vector, char element)
 
 void find(Vector all_data[], int number_of_vectors, char field_name, char operator, int value)
 {
+    if(field_name == 'Z') return;
+
     for(int i = 0; i < number_of_vectors; i++)
     {
        int found_value = find_value_with_field_name(all_data[i], field_name); // note also finds out if field_name exists in the vector by returning -99 if not
@@ -160,9 +162,10 @@ void find(Vector all_data[], int number_of_vectors, char field_name, char operat
     }
 }
 
-void project(Vector all_data[], int number_vectors, char project_elements[], int number_of_project_elements)
+void project(Vector all_data[], int number_vectors, char project_elements[], int number_of_projections)
 {
-    if(number_of_project_elements == 1 && project_elements[0] == 'X')
+    
+    if(number_of_projections == 1 && project_elements[0] == 'X')
     {
         for(int i = 0; i < number_vectors; i++)
         {
@@ -174,24 +177,28 @@ void project(Vector all_data[], int number_vectors, char project_elements[], int
     }
     else
     {
+        int flag = 0;
         for(int i = 0; i < number_vectors; i++)
         {
             if(all_data[i].indicator)
             {
                 for(int j = 0; j < all_data[i].used; j++)
                 {
-                    for(int z = 0; z < number_of_project_elements; z++)
+                    for(int z = 0; z < number_of_projections; z++)
                     {
                         if(all_data[i].data[j]->field_name == project_elements[z])
                         {
                             printf("%c: %d ",all_data[i].data[j]->field_name, all_data[i].data[j]->value);
+                            flag = 1;
                         }
                     }
                 }
-                printf("\n");
+                if(flag)printf("\n");
             }
+            flag = 0;
         }
     }
+
 }
 
 Vector *find_smallest_vector(Vector all_data[], int number_vectors,char search_for_field_name)
@@ -214,7 +221,7 @@ Vector *find_smallest_vector(Vector all_data[], int number_vectors,char search_f
                else if(curr_field_name == search_for_field_name && curr_value < min->data[min_index]->value)
                {
                    min = &all_data[i];
-                   min_index = j;
+                   min_index = j; 
                }
            }
        }
@@ -252,9 +259,8 @@ Vector *find_largest_vector(Vector all_data[], int number_vectors,char search_fo
 }
 
 
-void sort(Vector all_data[], int number_vectors, int security_level,char field_name_sorting_by,int sorting_type)
+void sort(Vector all_data[], int number_vectors, char field_name_sorting_by, int sorting_type)
 {
-   security_filter(all_data, number_vectors, security_level); // filter out documents that do not meet security_level
    find(all_data, number_vectors, field_name_sorting_by, ' ', -1); // filter out documents that does not have field_name that we sorting by
    if(sorting_type != 1 && sorting_type != -1) 
    {

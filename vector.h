@@ -34,8 +34,8 @@ void reset_indicator(Vector *all_data, int number_vectors);
 void security_filter(Vector all_data[], int number_vectors, int security_level);
 int find_value_with_field_name(Vector vector, char element);
 void find(Vector all_data[], int number_of_vectors, char field_name, char operator, int value);
-void project(Vector all_data[], int number_vectors, char project_elements[], int number_of_project_elements);
+void project(Vector all_data[], int number_vectors, char project_elements[], int number_of_projections);
 Vector *find_smallest_vector(Vector all_data[], int number_vectors, char search_for_field_name);
 Vector *find_largest_vector(Vector all_data[], int number_vectors, char search_for_field_name);
-void sort(Vector all_data[], int number_vectors, int security_level,char field_name_sorting_by,int sorting_type);
+void sort(Vector all_data[], int number_vectors, char field_name_sorting_by, int sorting_type);
 #endif
