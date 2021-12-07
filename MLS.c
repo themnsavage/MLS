@@ -110,7 +110,7 @@ void read_query(char *filename, Vector all_data[], int number_of_vectors)
                 if(c[0] != ';' && c[0] != ' ')projections[count++] = c[0];
                 l += offset;
             }
-            //for(int i = 0; i < count; i++)printf("%c", projections[i]);
+            
             project(all_data, number_of_vectors, projections, count);
         }
         else if(strstr(line, "SORT"))

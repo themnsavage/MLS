@@ -177,10 +177,10 @@ void project(Vector all_data[], int number_vectors, char project_elements[], int
     }
     else
     {
-        int flag = 0;
+        int flag = 0; // used to indecate if somthing is printed, helps prevent extra \n
         for(int i = 0; i < number_vectors; i++)
         {
-            if(all_data[i].indicator)
+            if(all_data[i].indicator) 
             {
                 for(int j = 0; j < all_data[i].used; j++)
                 {
@@ -189,11 +189,11 @@ void project(Vector all_data[], int number_vectors, char project_elements[], int
                         if(all_data[i].data[j]->field_name == project_elements[z])
                         {
                             printf("%c: %d ",all_data[i].data[j]->field_name, all_data[i].data[j]->value);
-                            flag = 1;
+                            flag = 1; // set flag to 1 indicating somthing was printed
                         }
                     }
                 }
-                if(flag)printf("\n");
+                if(flag)printf("\n"); // checks if anything was printed
             }
             flag = 0;
         }
